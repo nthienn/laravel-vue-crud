@@ -1,5 +1,4 @@
 import Admin from '../layouts/Admin.vue';
-import Login from '../pages/admin/auth/Login.vue';
 
 const admin = [
     {
@@ -7,7 +6,7 @@ const admin = [
         component: Admin,
         name: 'admin',
         children: [
-            // Quản lý users
+            // users
             {
                 path: 'users',
                 name: 'admin-users',
@@ -24,24 +23,20 @@ const admin = [
                 component: () => import('../pages/admin/users/edit.vue'),
             },
 
-            // Quản lý roles
+            // roles
             {
                 path: 'roles',
                 name: 'admin-roles',
                 component: () => import('../pages/admin/roles/index.vue'),
             },
 
-            // Quản lý settings
+            // settings
             {
                 path: 'settings',
                 name: 'admin-settings',
                 component: () => import('../pages/admin/settings/index.vue'),
             },
         ]
-    },
-    {
-        path: '/',
-        component: Login,
     },
 ]
 

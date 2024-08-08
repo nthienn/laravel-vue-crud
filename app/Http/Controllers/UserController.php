@@ -49,31 +49,33 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'status_id' => 'required',
-            'username' => 'required|unique:users,username',
-            'name' => 'required|max:255',
-            'email' => 'required|email',
-            'department_id' => 'required',
-            'password' => 'required',
-            'password_confirmation' => 'required|same:password'
-        ],
-        [
-            'status_id.required' => 'Nhập Tình trạng',
-            'username.required' => 'Nhập Tên tài khoản',
-            'username.unique' => 'Tên tài khoản đã tồn tại',
+        $validated = $request->validate(
+            [
+                'status_id' => 'required',
+                'username' => 'required|unique:users,username',
+                'name' => 'required|max:255',
+                'email' => 'required|email',
+                'department_id' => 'required',
+                'password' => 'required',
+                'password_confirmation' => 'required|same:password'
+            ],
+            [
+                'status_id.required' => 'Nhập Tình trạng',
+                'username.required' => 'Nhập Tên tài khoản',
+                'username.unique' => 'Tên tài khoản đã tồn tại',
 
-            'name.required' => 'Nhập Họ và tên',
-            'name.max' => 'Ký tự tối đa là 255',
+                'name.required' => 'Nhập Họ và tên',
+                'name.max' => 'Ký tự tối đa là 255',
 
-            'email.required' => 'Nhập Email',
-            'email.email' => 'Email không hợp lệ',
+                'email.required' => 'Nhập Email',
+                'email.email' => 'Email không hợp lệ',
 
-            'department_id.required' => 'Nhập Phòng ban',
-            'password.required' => 'Nhập Mật khẩu',
-            'password_confirmation.required' => 'Xác nhận lại mật khẩu',
-            'password_confirmation.same' => 'Mật khẩu không trùng khớp'
-        ]);
+                'department_id.required' => 'Nhập Phòng ban',
+                'password.required' => 'Nhập Mật khẩu',
+                'password_confirmation.required' => 'Xác nhận lại mật khẩu',
+                'password_confirmation.same' => 'Mật khẩu không trùng khớp'
+            ]
+        );
 
         User::create([
             'status_id' => $validated['status_id'],
@@ -83,10 +85,6 @@ class UserController extends Controller
             'department_id' => $validated['department_id'],
             'password' => Hash::make($validated['password'])
         ]);
-
-        // $user = $request->except(['password, password_confirmation']);
-        // $user['password'] = Hash::make($request['password']);
-        // User::create($user);
     }
 
     public function edit($id)
@@ -114,23 +112,25 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'status_id' => 'required',
-            'username' => 'required|unique:users,username,' . $id,
-            'name' => 'required|max:255',
-            'email' => 'required|email',
-            'department_id' => 'required'
-        ], 
-        [
-            'status_id.required' => 'Nhập Tình trạng',
-            'username.required' => 'Nhập Tên tài khoản',
-            'username.unique' => 'Tên tài khoản đã tồn tại',
-            'name.required' => 'Nhập Họ và tên',
-            'name.max' => 'Ký tự tối đa là 255',
-            'email.required' => 'Nhập Email',
-            'email.email' => 'Email không hợp lệ',
-            'department_id.required' => 'Nhập Phòng ban',
-        ]);
+        $validated = $request->validate(
+            [
+                'status_id' => 'required',
+                'username' => 'required|unique:users,username,' . $id,
+                'name' => 'required|max:255',
+                'email' => 'required|email',
+                'department_id' => 'required'
+            ],
+            [
+                'status_id.required' => 'Nhập Tình trạng',
+                'username.required' => 'Nhập Tên tài khoản',
+                'username.unique' => 'Tên tài khoản đã tồn tại',
+                'name.required' => 'Nhập Họ và tên',
+                'name.max' => 'Ký tự tối đa là 255',
+                'email.required' => 'Nhập Email',
+                'email.email' => 'Email không hợp lệ',
+                'department_id.required' => 'Nhập Phòng ban',
+            ]
+        );
 
         User::find($id)->update([
             'status_id' => $validated['status_id'],
@@ -141,15 +141,17 @@ class UserController extends Controller
         ]);
 
         if ($request['change_password'] == true) {
-            $validated = $request->validate([
-                'password' => 'required',
-                'password_confirmation' => 'required|same:password'
-            ], 
-            [
-                'password.required' => 'Nhập Mật khẩu',
-                'password_confirmation.required' => 'Xác nhận lại mật khẩu',
-                'password_confirmation.same' => 'Mật khẩu không trùng khớp'
-            ]);
+            $validated = $request->validate(
+                [
+                    'password' => 'required',
+                    'password_confirmation' => 'required|same:password'
+                ],
+                [
+                    'password.required' => 'Nhập Mật khẩu',
+                    'password_confirmation.required' => 'Xác nhận lại mật khẩu',
+                    'password_confirmation.same' => 'Mật khẩu không trùng khớp'
+                ]
+            );
 
             User::find($id)->update([
                 'password' => Hash::make($validated['password']),
